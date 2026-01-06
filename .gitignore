@@ -24,7 +24,7 @@ frontend/.env*
 frontend/.vercel
 
 # typescript
-*.tsbuildinfo
+frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
 
