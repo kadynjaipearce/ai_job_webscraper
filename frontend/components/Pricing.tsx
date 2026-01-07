@@ -3,13 +3,13 @@ import { Check } from "lucide-react";
 const plans = [
   {
     name: "Free",
-    tagline: "For casual browsers.",
+    tagline: "For people who like free stuff.",
     price: 0,
     features: ["50 Scrapes/day", "Email alerts", "No Auto-apply"],
   },
   {
     name: "Pro",
-    tagline: "For serious candidates.",
+    tagline: "For people who want results.",
     price: 10,
     features: [
       "Unlimited Scrapes",
@@ -32,10 +32,10 @@ export function Pricing() {
             Pricing
           </span>
           <h2 className="text-4xl font-bold text-neutral-950 sm:text-5xl">
-            Simple plans for serious work
+            Pricing that doesn&apos;t suck
           </h2>
           <p className="text-base text-slate-700">
-            Simple, transparent pricing that grows with you.
+            No hidden fees, no BS. Just pick a plan and go.
           </p>
         </div>
 
@@ -46,7 +46,7 @@ export function Pricing() {
             return (
               <div
                 key={plan.name}
-                className={`flex min-h-[400px] md:min-h-[500px] flex-col rounded-2xl md:rounded-3xl border p-4 md:p-6 shadow-xl shadow-neutral-950/10 ${
+                className={`flex min-h-[400px] md:min-h-[500px] flex-col rounded-2xl md:rounded-3xl border p-4 md:p-6 ${
                   isHighlight
                     ? "border-2 border-white/80 bg-gradient-to-b from-[#cde0ff] via-white to-[#f3e7d9] ring-1 ring-white/80"
                     : "border-white/80 bg-white/90"
@@ -73,9 +73,10 @@ export function Pricing() {
                 </div>
 
                 <div className="mt-2 text-xs md:text-sm text-slate-700">
-                  {plan.name === "Free" && "For solo use with light needs."}
+                  {plan.name === "Free" &&
+                    "Try before you buy (or don&apos;t buy)."}
                   {plan.name === "Pro" &&
-                    "For serious candidates who want automation."}
+                    "The one that actually gets you hired."}
                 </div>
 
                 <div className="mt-4 md:mt-6 flex-1 space-y-2 md:space-y-3 text-xs md:text-sm text-slate-800">
@@ -87,15 +88,9 @@ export function Pricing() {
                   ))}
                 </div>
 
-                <button
-                  className={`mt-auto w-full rounded-full px-4 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold transition ${
-                    isHighlight
-                      ? "bg-neutral-950 text-white shadow-lg shadow-neutral-950/20 hover:-translate-y-0.5 hover:shadow-xl"
-                      : "bg-neutral-950 text-white shadow-md shadow-neutral-950/15 hover:-translate-y-0.5 hover:shadow-lg"
-                  }`}
-                >
-                  {plan.name === "Free" && "Try free"}
-                  {plan.name === "Pro" && "Get started"}
+                <button className="mt-auto w-full rounded-full px-4 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold transition bg-neutral-950 text-white hover:-translate-y-0.5 hover:cursor-pointer">
+                  {plan.name === "Free" && "I'm In"}
+                  {plan.name === "Pro" && "Let's Do This"}
                 </button>
               </div>
             );

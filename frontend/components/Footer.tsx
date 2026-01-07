@@ -11,32 +11,32 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 text-center">
         <div className="flex flex-col gap-3">
           <h3 className="text-4xl font-bold text-neutral-950 sm:text-5xl">
-            Ready to get started
+            Ready to stop being unemployed?
           </h3>
           <p className="text-base text-slate-600">
-            Sign-up to pleasehireme for free.
+            Sign up for free. No credit card required (yet).
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <button className="hover:cursor-pointer flex items-center gap-2 rounded-full bg-neutral-950 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-neutral-950/20 transition hover:-translate-y-0.5 hover:shadow-xl">
-            Try for free
+          <button className="hover:cursor-pointer flex items-center gap-2 rounded-full bg-neutral-950 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5">
+            Sign Me Up
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="rounded-3xl border border-white/50 bg-white/60 p-8 shadow-2xl shadow-neutral-950/10 backdrop-blur-xl">
+        <div className="rounded-3xl border border-white/50 bg-white/80 p-8">
           <div className="grid gap-8 md:grid-cols-[1.5fr,1fr,1fr]">
             <div className="text-left">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-950 text-white shadow-md shadow-neutral-950/15">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral-950 text-white">
                   <Image src="/icon.svg" alt="logo" width={20} height={20} />
                 </div>
                 <div className="text-lg font-semibold">pleasehireme.app</div>
               </div>
               <p className="mt-4 max-w-sm text-sm text-slate-600">
-                Your favourite AI job-matching and auto-apply copilot. Built for
-                early career engineers and scrappy teams.
+                Your AI job-hunting sidekick. We do the work, you get the
+                offers. Built for people who are tired of applying manually.
               </p>
             </div>
 

@@ -19,10 +19,17 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 /* Marquee utility */
@@ -33,6 +40,8 @@ body {
   width: max-content;
   display: inline-flex;
   animation: marquee var(--marquee-duration, 18s) linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .marquee-pause:hover {
   animation-play-state: paused;
