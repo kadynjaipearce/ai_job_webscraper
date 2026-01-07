@@ -27,7 +27,7 @@ export function Hero() {
           </button>
         </div>
 
-        <div className="w-full max-w-5xl rounded-3xl border-3 border-[#ecdfd0] bg-white/80 p-6 ring-1 ring-white/70">
+        <div className="w-full max-w-5xl rounded-3xl border-3 border-[#ecdfd0] bg-white/80 p-6 ring-1 ring-[#ecdfd0]">
           <div className="flex flex-col gap-6 rounded-2xl border border-white/60 bg-white/95 p-8 text-left text-neutral-950">
             <div className="flex flex-wrap items-center gap-4">
               <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
