@@ -24,3 +24,24 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Marquee utility */
+.marquee {
+  position: relative;
+}
+.marquee-track {
+  width: max-content;
+  display: inline-flex;
+  animation: marquee var(--marquee-duration, 18s) linear infinite;
+}
+.marquee-pause:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

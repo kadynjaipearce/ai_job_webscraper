@@ -1,0 +1,8 @@
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    ports:
+      - "8000:8000"
+    command: surreal start --user root --pass root file://data/surrealdb/data.db
+    volumes:
+      - ./backend/data:/var/lib/surrealdb/data
