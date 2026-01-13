@@ -1,28 +1,21 @@
-use std::sync::LazyLock;
-use actix_web::{get, web::ServiceConfig};
+use actix_web::{get, web::{self, ServiceConfig}};
 use shuttle_actix_web::ShuttleActixWeb;
 
 mod error;
 mod database;
 mod chrome;
 
-#[get("/")]
-async fn hello_world() -> String {
-    let driver = chrome::driver::Driver::new().await;
-
-    driver.driver.goto("https://www.pleasehireme.app/").await.unwrap();
-
-    let html = driver.driver.source().await.unwrap();
-
-    driver.driver.quit().await.unwrap();
-    
-    html
+#[get("")]
+async fn hello_world() -> &'static str {
+    "Hello, world!"
 }
 
 #[shuttle_runtime::main]
 async fn main() -> ShuttleActixWeb<impl FnOnce(&mut ServiceConfig) + Send + Clone + 'static> {
     let config = move |cfg: &mut ServiceConfig| {
-        cfg.service(hello_world);
+        cfg.service(
+            web::scope("/api").service(hello_world)
+        );
     };
 
     Ok(config.into())
