@@ -16,6 +16,7 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 .pnpm-debug.log*
+/target/*
 
 # env files (can opt-in for committing if needed)
 frontend/.env*
