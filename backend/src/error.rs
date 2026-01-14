@@ -6,7 +6,6 @@ pub mod error {
     pub enum Error {
         #[error("Database error")]
         Db(String),
-
     }
 
     impl ResponseError for Error {
