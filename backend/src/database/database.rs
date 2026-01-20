@@ -19,6 +19,29 @@ impl Database {
         })
         .await?;
 
+        db.use_ns("main").use_db("main").await?;
+
+        db.query("
+        
+        DEFINE TABLE user SCHEMAFULL;
+        DEFINE FIELD firstname ON TABLE user TYPE string;
+        DEFINE FIELD lastname ON TABLE user TYPE string;
+        DEFINE FIELD email ON TABLE user TYPE string;
+        DEFINE FIELD created_at ON TABLE user TYPE datetime;
+        DEFINE FIELD updated_at ON TABLE user TYPE datetime;
+
+        DEFINE TABLE listing SCHEMAFULL;
+        DEFINE FIELD title ON TABLE listing TYPE string;
+        DEFINE FIELD company ON TABLE listing TYPE string;
+        DEFINE FIELD salary ON TABLE listing TYPE number;
+        DEFINE FIELD location ON TABLE listing TYPE string;
+        DEFINE FIELD description ON TABLE listing TYPE string;
+        DEFINE FIELD url ON TABLE listing TYPE string;
+        DEFINE FIELD created_at ON TABLE listing TYPE datetime;
+        DEFINE FIELD updated_at ON TABLE listing TYPE datetime;
+        
+        ").await?;
+
         Ok(Self { db })
     }
 }
