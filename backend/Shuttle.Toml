@@ -1,2 +1,5 @@
 [deploy]
 include = []
+
+[env]
+SHUTTLE_LOG_LEVEL = "debug"

@@ -14,7 +14,7 @@ impl Driver {
         capabilities.add_arg("--no-sandbox").unwrap();
         capabilities.add_arg("--disable-dev-shm-usage").unwrap();
 
-        let driver = WebDriver::new("http://localhost:35531", capabilities)
+        let driver = WebDriver::new("http://localhost:36205", capabilities)
             .await
             .unwrap();
         Self { driver }

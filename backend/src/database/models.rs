@@ -16,6 +16,7 @@ pub struct JobListing {
     pub id: String,
     pub title: String,
     pub company: String,
+    pub salary: f64,
     pub location: String,
     pub description: String,
     pub url: String,
