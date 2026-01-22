@@ -1,4 +1,4 @@
-use crate::database::models::JobListing;
+
 use crate::error::error::Error;
 use shuttle_runtime::SecretStore;
 use surrealdb::opt::auth::Root;
@@ -30,31 +30,11 @@ impl Database {
         DEFINE FIELD email ON TABLE user TYPE string;
         DEFINE FIELD created_at ON TABLE user TYPE datetime;
         DEFINE FIELD updated_at ON TABLE user TYPE datetime;
-
-        DEFINE TABLE listing SCHEMAFULL;
-        DEFINE FIELD title ON TABLE listing TYPE string;
-        DEFINE FIELD company ON TABLE listing TYPE string;
-        DEFINE FIELD salary ON TABLE listing TYPE number;
-        DEFINE FIELD location ON TABLE listing TYPE string;
-        DEFINE FIELD description ON TABLE listing TYPE string;
-        DEFINE FIELD url ON TABLE listing TYPE string;
-        DEFINE FIELD created_at ON TABLE listing TYPE datetime;
-        DEFINE FIELD updated_at ON TABLE listing TYPE datetime;
         
         ",
         )
         .await?;
 
         Ok(Self { db })
-    }
-
-    pub async fn create_listing(&self, listing: JobListing) -> Result<JobListing, Error> {
-        let result = self
-            .db
-            .create("listing")
-            .content(listing)
-            .await
-            .map_err(|e| Error::from(e))?;
-        Ok(result.unwrap())
     }
 }

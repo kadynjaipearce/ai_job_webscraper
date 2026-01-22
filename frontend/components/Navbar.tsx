@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -88,11 +89,17 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2 md:gap-3">
-            <button className="flex items-center gap-1.5 rounded-full bg-neutral-950 px-3 py-1.5 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:cursor-pointer md:gap-2 md:px-5 md:py-2.5 md:text-sm">
-              <span className="hidden sm:inline">Stop Being Unemployed</span>
-              <span className="sm:hidden">Get Hired</span>
-              <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
-            </button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button className="flex items-center gap-1.5 rounded-full bg-neutral-950 px-3 py-1.5 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:cursor-pointer md:gap-2 md:px-5 md:py-2.5 md:text-sm">
+                  <span className="hidden sm:inline">Stop Being Unemployed</span>
+                  <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </div>

@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
+
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
@@ -9,14 +18,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-<<<<<<< HEAD
   title: "pleasehireme | AI Job Hunter & Auto-Apply",
   description:
     "AI-powered job scraper that matches your resume, scrapes sources you care about, and auto-applies while you sleep.",
-=======
-  title: "Work in Progress",
-  description: "Why are you looking?",
->>>>>>> main
 };
 
 export default function RootLayout({
@@ -26,7 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} antialiased`}>{children}</body>
+      <body className={`${outfit.variable} antialiased`}>
+        <ClerkProvider>
+          {children}
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
