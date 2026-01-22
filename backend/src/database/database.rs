@@ -48,16 +48,13 @@ impl Database {
         Ok(Self { db })
     }
 
-    pub async fn create_listing(&self, listing: JobListing) -> Result<Option<JobListing>, Error> {
-        let result = self.db.create("listing").content(listing).await.map_err(|e| {
-            tracing::error!("Failed to create listing: {}", e);
-            Error::from(e)
-        })?;
-        if result.is_some() {
-            Ok(result)
-        } else {
-            tracing::error!("Failed to create listing: database returned None");
-            Err(Error::Db("Failed to create listing".to_string()))
-        }
+    pub async fn create_listing(&self, listing: JobListing) -> Result<JobListing, Error> {
+        let result = self
+            .db
+            .create("listing")
+            .content(listing)
+            .await
+            .map_err(|e| Error::from(e))?;
+        Ok(result.unwrap())
     }
 }

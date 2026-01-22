@@ -1,9 +1,12 @@
 use crate::database::models::JobListing;
+use crate::response::ApiResponse;
 use actix_web::{
-    get,
+    get, post,
     web::{self, ServiceConfig},
+    HttpResponse, ResponseError,
 };
 use chrono::Utc;
+use serde_json::json;
 use shuttle_actix_web::ShuttleActixWeb;
 use shuttle_runtime::SecretStore;
 
@@ -13,24 +16,18 @@ use tracing_subscriber::filter::{EnvFilter, LevelFilter};
 mod chrome;
 mod database;
 mod error;
+mod response;
 
-#[tracing::instrument(name = "hello")]
+#[tracing::instrument(name = "/")]
 #[get("")]
-async fn hello_world() -> &'static str {
-    error!("Error: Hello, world!");
-    event!(tracing::Level::INFO, "Info: Hello, world!");
-    warn!("Warning: Hello, world!");
-    info!("Info: Hello, world!");
-    debug!("Debug: Hello, world!");
-    trace!("Trace: Hello, world!");
-    "Hello, world!"
+async fn hello_world() -> HttpResponse {
+    let message = "Hello, world!";
+    ApiResponse::ok(message)
 }
 
-
-
-#[tracing::instrument(name = "create_listing", skip(db))]
-#[get("/create-listing")]
-async fn create_listing(db: web::Data<database::database::Database>) -> &'static str {
+#[tracing::instrument(name = "/create_listing", skip(db))]
+#[post("/listings")]
+async fn create_listing(db: web::Data<database::database::Database>) -> HttpResponse {
     let listing = JobListing {
         id: "1".to_string(),
         title: "Software Engineer".to_string(),
@@ -45,10 +42,9 @@ async fn create_listing(db: web::Data<database::database::Database>) -> &'static
         updated_at: Utc::now(),
     };
 
-    if let Ok(_listing) = db.create_listing(listing).await {
-        return "Listing created successfully";
-    } else {
-        return "Failed to create listing";
+    match db.create_listing(listing).await {
+        Ok(created_listing) => ApiResponse::created(created_listing),
+        Err(e) => e.error_response(),
     }
 }
 
