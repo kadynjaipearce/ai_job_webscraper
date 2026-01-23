@@ -1,101 +1,173 @@
-import { Check } from "lucide-react";
+"use client";
+
+import Link from "next/link";
+import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { motion } from "framer-motion";
 
 const plans = [
   {
     name: "Free",
-    tagline: "For people who like free stuff.",
+    tagline: "For people who like free stuff",
     price: 0,
-    features: ["50 Scrapes/day", "Email alerts", "No Auto-apply"],
+    features: [
+      "50 job scrapes per day",
+      "Basic skill matching",
+      "Email alerts",
+      "Manual applications only",
+    ],
+    cta: "Get Started",
+    highlighted: false,
   },
   {
     name: "Pro",
-    tagline: "For people who want results.",
+    tagline: "For people who want results",
     price: 10,
     features: [
-      "Unlimited Scrapes",
-      "AI Resume Matching",
-      "Auto-Apply (10/day)",
+      "Unlimited job scrapes",
+      "AI-powered resume matching",
+      "Auto-apply (10/day)",
+      "Priority support",
+      "Interview reminders",
     ],
+    cta: "Start Pro Trial",
     highlighted: true,
   },
 ];
 
 export function Pricing() {
   return (
-    <section
-      id="pricing"
-      className="bg-gradient-to-b from-[#f6f1e8] via-[#eef1f6] to-sky-100 py-20"
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6">
-        <div className="flex flex-col gap-3 text-center">
-          <span className="text-xs font-semibold uppercase tracking-wide text-slate-600">
+    <section id="pricing" className="relative bg-zinc-950 py-24 lg:py-32">
+      {/* Gradient background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-violet-600/10 rounded-full blur-[128px]" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium mb-6">
             Pricing
           </span>
-          <h2 className="text-4xl font-bold text-neutral-950 sm:text-5xl">
-            Pricing that doesn&apos;t suck
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Pricing that{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
+              doesn&apos;t suck
+            </span>
           </h2>
-          <p className="text-base text-slate-700">
+          <p className="text-lg text-zinc-400 max-w-xl mx-auto">
             No hidden fees, no BS. Just pick a plan and go.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-4 md:gap-6 md:grid-cols-2 md:max-w-3xl md:mx-auto">
-          {plans.map((plan) => {
-            const isHighlight = Boolean(plan.highlighted);
-
-            return (
-              <div
-                key={plan.name}
-                className={`flex min-h-[400px] md:min-h-[500px] flex-col rounded-2xl md:rounded-3xl border p-4 md:p-6 ${
-                  isHighlight
-                    ? "border-2 border-white/80 bg-gradient-to-b from-[#cde0ff] via-white to-[#f3e7d9] ring-1 ring-white/80"
-                    : "border-white/80 bg-white/90"
-                }`}
-              >
-                <div className="mb-3 md:mb-4 h-2" />
-
-                <div className="flex flex-col gap-1.5 md:gap-2">
-                  <p className="text-xs md:text-sm font-semibold text-slate-700">
-                    {plan.tagline}
-                  </p>
-                  <h3 className="text-xl md:text-2xl font-bold text-neutral-950">
-                    {plan.name}
-                  </h3>
-                </div>
-
-                <div className="mt-3 md:mt-4 flex items-baseline gap-2">
-                  <span className="text-3xl md:text-4xl font-bold text-neutral-950">
-                    ${plan.price}
-                  </span>
-                  <span className="text-xs md:text-sm font-semibold text-slate-600">
-                    /mo
+        {/* Pricing Cards */}
+        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`relative rounded-2xl p-8 ${
+                plan.highlighted
+                  ? "bg-gradient-to-b from-violet-600/20 via-zinc-900 to-zinc-900 border-2 border-violet-500/50"
+                  : "bg-zinc-900 border border-zinc-800"
+              }`}
+            >
+              {/* Popular badge */}
+              {plan.highlighted && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-sm font-semibold">
+                    <Sparkles className="h-4 w-4" />
+                    Most Popular
                   </span>
                 </div>
+              )}
 
-                <div className="mt-2 text-xs md:text-sm text-slate-700">
-                  {plan.name === "Free" &&
-                    "Try before you buy (or don&apos;t buy)."}
-                  {plan.name === "Pro" &&
-                    "The one that actually gets you hired."}
-                </div>
-
-                <div className="mt-4 md:mt-6 flex-1 space-y-2 md:space-y-3 text-xs md:text-sm text-slate-800">
-                  {plan.features.map((feature) => (
-                    <div key={feature} className="flex items-center gap-2">
-                      <Check className="h-3.5 w-3.5 md:h-4 md:w-4 text-slate-800 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button className="mt-auto w-full rounded-full px-4 py-2.5 md:px-5 md:py-3 text-xs md:text-sm font-semibold transition bg-neutral-950 text-white hover:-translate-y-0.5 hover:cursor-pointer">
-                  {plan.name === "Free" && "I'm In"}
-                  {plan.name === "Pro" && "Let's Do This"}
-                </button>
+              {/* Plan info */}
+              <div className="mb-6">
+                <p className="text-sm text-zinc-500 mb-1">{plan.tagline}</p>
+                <h3 className="text-2xl font-bold text-white">{plan.name}</h3>
               </div>
-            );
-          })}
+
+              {/* Price */}
+              <div className="flex items-baseline gap-2 mb-6">
+                <span className="text-5xl font-bold text-white">
+                  ${plan.price}
+                </span>
+                <span className="text-zinc-500">/month</span>
+              </div>
+
+              {/* Features */}
+              <ul className="space-y-4 mb-8">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-center gap-3">
+                    <div
+                      className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center ${
+                        plan.highlighted
+                          ? "bg-violet-500/20"
+                          : "bg-zinc-800"
+                      }`}
+                    >
+                      <Check
+                        className={`h-3 w-3 ${
+                          plan.highlighted ? "text-violet-400" : "text-zinc-400"
+                        }`}
+                      />
+                    </div>
+                    <span className="text-zinc-300">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA Button */}
+              <SignedOut>
+                <Link
+                  href="/sign-up"
+                  className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition ${
+                    plan.highlighted
+                      ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white"
+                      : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700"
+                  }`}
+                >
+                  {plan.cta}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </SignedOut>
+              <SignedIn>
+                <Link
+                  href="/dashboard"
+                  className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition ${
+                    plan.highlighted
+                      ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white"
+                      : "bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-700"
+                  }`}
+                >
+                  Go to Dashboard
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </SignedIn>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Bottom note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-center text-zinc-500 mt-12"
+        >
+          14-day money-back guarantee. Cancel anytime. No questions asked.
+        </motion.p>
       </div>
     </section>
   );

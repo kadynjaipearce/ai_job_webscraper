@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
+import { ClerkProvider } from "@clerk/nextjs";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -30,8 +22,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} antialiased`}>
-        <ClerkProvider>
+      <body className={`${outfit.variable} font-sans antialiased`}>
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#0a0a0a",
+              colorTextOnPrimaryBackground: "#ffffff",
+              borderRadius: "0.75rem",
+            },
+            elements: {
+              formButtonPrimary:
+                "bg-neutral-950 hover:bg-neutral-800 text-white",
+              card: "shadow-none",
+            },
+          }}
+        >
           {children}
         </ClerkProvider>
       </body>
