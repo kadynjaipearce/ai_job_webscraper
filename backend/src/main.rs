@@ -13,7 +13,9 @@ use tracing_subscriber::filter::{EnvFilter, LevelFilter};
 mod chrome;
 mod database;
 mod error;
+mod handlers;
 mod response;
+mod scrapers;
 
 #[tracing::instrument(name = "/")]
 #[get("")]
@@ -43,6 +45,7 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> ShuttleActixW
         cfg.service(
             web::scope("/api")
                 .service(index)
+                .service(handlers::jobs::scrape_indeed)
                 .default_service(web::route().to(not_found_handler))
                 .app_data(secrets)
                 .app_data(db)

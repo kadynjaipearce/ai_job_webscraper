@@ -30,7 +30,21 @@ impl Database {
         DEFINE FIELD email ON TABLE user TYPE string;
         DEFINE FIELD created_at ON TABLE user TYPE datetime;
         DEFINE FIELD updated_at ON TABLE user TYPE datetime;
-        
+
+        DEFINE TABLE listing SCHEMAFULL;
+        DEFINE FIELD title ON TABLE listing TYPE string;
+        DEFINE FIELD company ON TABLE listing TYPE string;
+        DEFINE FIELD location ON TABLE listing TYPE string;
+        DEFINE FIELD salary ON TABLE listing TYPE option<string>;
+        DEFINE FIELD description_snippet ON TABLE listing TYPE string;
+        DEFINE FIELD url ON TABLE listing TYPE string;
+        DEFINE FIELD indeed_job_key ON TABLE listing TYPE string;
+        DEFINE FIELD source ON TABLE listing TYPE string;
+        DEFINE FIELD scraped_at ON TABLE listing TYPE datetime;
+        DEFINE FIELD created_at ON TABLE listing TYPE datetime;
+        DEFINE FIELD updated_at ON TABLE listing TYPE datetime;
+        DEFINE INDEX listing_job_key_source ON TABLE listing FIELDS indeed_job_key, source UNIQUE;
+
         ",
         )
         .await?;

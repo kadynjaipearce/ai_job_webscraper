@@ -23,6 +23,12 @@ pub mod error {
 
         #[error("Conflict: {0}")]
         Conflict(String),
+
+        #[error("Scraper error: {0}")]
+        Scraper(String),
+
+        #[error("WebDriver error: {0}")]
+        WebDriver(String),
     }
 
     impl ResponseError for Error {
@@ -40,12 +46,22 @@ pub mod error {
                 Error::BadRequest(e) => ApiResponse::<()>::bad_request(e.clone()),
                 Error::Unauthorized(e) => ApiResponse::<()>::unauthorized(e.clone()),
                 Error::Conflict(e) => ApiResponse::<()>::conflict(e.clone()),
+                Error::Scraper(e) => {
+                    error!("Error Response: Scraper error - {}", e);
+                    ApiResponse::<()>::internal_error(e.clone())
+                }
+                Error::WebDriver(e) => {
+                    error!("Error Response: WebDriver error - {}", e);
+                    ApiResponse::<()>::internal_error(e.clone())
+                }
             }
         }
 
         fn status_code(&self) -> StatusCode {
             match self {
-                Error::Database(_) | Error::Api(_) => StatusCode::INTERNAL_SERVER_ERROR,
+                Error::Database(_) | Error::Api(_) | Error::Scraper(_) | Error::WebDriver(_) => {
+                    StatusCode::INTERNAL_SERVER_ERROR
+                }
                 Error::NotFound(_) => StatusCode::NOT_FOUND,
                 Error::BadRequest(_) => StatusCode::BAD_REQUEST,
                 Error::Unauthorized(_) => StatusCode::UNAUTHORIZED,
@@ -57,6 +73,12 @@ pub mod error {
     impl From<surrealdb::Error> for Error {
         fn from(error: surrealdb::Error) -> Self {
             Error::Database(error.to_string())
+        }
+    }
+
+    impl From<thirtyfour::error::WebDriverError> for Error {
+        fn from(error: thirtyfour::error::WebDriverError) -> Self {
+            Error::WebDriver(error.to_string())
         }
     }
 }
