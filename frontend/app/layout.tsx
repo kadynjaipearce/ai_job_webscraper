@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Inter, Lora, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -22,18 +34,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} font-sans antialiased`}>
+      <body
+        className={`${inter.variable} ${lora.variable} ${spaceGrotesk.variable} font-sans antialiased`}
+      >
         <ClerkProvider
           appearance={{
             variables: {
-              colorPrimary: "#0a0a0a",
+              colorPrimary: "#6366f1",
               colorTextOnPrimaryBackground: "#ffffff",
               borderRadius: "0.75rem",
             },
             elements: {
               formButtonPrimary:
-                "bg-neutral-950 hover:bg-neutral-800 text-white",
-              card: "shadow-none",
+                "bg-indigo-500 hover:bg-indigo-400 text-white",
+              card: "shadow-none bg-slate-900 border border-white/10",
             },
           }}
         >

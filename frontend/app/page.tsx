@@ -1,13 +1,13 @@
-import { Features } from "../components/Features";
-import { Footer } from "../components/Footer";
-import { Hero } from "../components/Hero";
-import { Navbar } from "../components/Navbar";
-import { Pricing } from "../components/Pricing";
+import { Navigation } from "../components/sections/Navigation";
+import { Hero } from "../components/sections/Hero";
+import { Features } from "../components/sections/Features";
+import { Pricing } from "../components/sections/Pricing";
+import { Footer } from "../components/sections/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-zinc-950">
-      <Navbar />
+    <div className="min-h-screen">
+      <Navigation />
       <main>
         <Hero />
         <Features />

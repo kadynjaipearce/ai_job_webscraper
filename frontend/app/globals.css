@@ -1,19 +1,30 @@
 @import "tailwindcss";
 
+/* ── Design Tokens ───────────────────────────────────────── */
+
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --surface: #f8f9fa;
+  --brand: #6366f1;
+  --brand-light: #818cf8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-outfit), system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  --color-surface: var(--surface);
+  --color-brand: var(--brand);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-serif: var(--font-lora), Georgia, serif;
+  --font-display: var(--font-space), system-ui, sans-serif;
 }
+
+/* ── Base ────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -21,74 +32,164 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* ── Scrollbar ───────────────────────────────────────────── */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #18181b;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* Selection color */
+/* ── Selection & Focus ───────────────────────────────────── */
+
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
+  background: rgba(99, 102, 241, 0.3);
   color: #ffffff;
 }
-
-/* Focus ring */
 :focus-visible {
-  outline: 2px solid #8b5cf6;
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
-/* Clerk form styling overrides */
+/* ── Clerk overrides ─────────────────────────────────────── */
+
 .cl-internal-b3fm6y {
   display: none !important;
 }
 
-/* Button hover effect */
-button:active:not(:disabled) {
-  transform: scale(0.98);
+/* ── Glassmorphism – Dark ────────────────────────────────── */
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
 }
 
-/* Gradient text animation */
+.glass-strong {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+}
+
+/* ── Glassmorphism – Light (for feature section) ─────────── */
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+}
+
+/* ── Glow effects ────────────────────────────────────────── */
+
+.glow-indigo {
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.3),
+    0 0 30px rgba(99, 102, 241, 0.15),
+    0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glow-cta {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* ── Grid overlay pattern ────────────────────────────────── */
+
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.grid-overlay-mask {
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee-scroll var(--marquee-duration, 25s) linear infinite;
+  width: max-content;
+}
+.marquee-pause:hover {
+  animation-play-state: paused;
+}
+
 @keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
-
 .animate-gradient {
   background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
+  animation: gradient-shift 4s ease infinite;
 }
 
-/* Glow effect */
-.glow {
-  box-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.5; }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
 }
 
-/* Smooth transitions for all interactive elements */
+@keyframes typing-cursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.animate-cursor {
+  animation: typing-cursor 1s step-end infinite;
+}
+
+/* ── Transitions ─────────────────────────────────────────── */
+
 a, button {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
 }
