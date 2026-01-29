@@ -44,8 +44,25 @@ async fn main(#[shuttle_runtime::Secrets] secrets: SecretStore) -> ShuttleActixW
 
         cfg.service(
             web::scope("/api")
-                .service(index)
+                // Health endpoints
+                .service(handlers::health::health_check)
+                .service(handlers::health::liveness_check)
+                // Job endpoints
                 .service(handlers::jobs::scrape_indeed)
+                .service(handlers::jobs::list_jobs)
+                .service(handlers::jobs::get_job)
+                .service(handlers::jobs::delete_job)
+                .service(handlers::jobs::search_jobs)
+                .service(handlers::jobs::get_job_sources)
+                .service(handlers::jobs::get_job_stats)
+                // User endpoints
+                .service(handlers::users::list_users)
+                .service(handlers::users::get_user)
+                .service(handlers::users::create_user)
+                .service(handlers::users::update_user)
+                .service(handlers::users::delete_user)
+                // Root endpoint
+                .service(index)
                 .default_service(web::route().to(not_found_handler))
                 .app_data(secrets)
                 .app_data(db)

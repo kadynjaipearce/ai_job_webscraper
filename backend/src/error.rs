@@ -21,8 +21,14 @@ pub mod error {
         #[error("Unauthorized: {0}")]
         Unauthorized(String),
 
+        #[error("Forbidden: {0}")]
+        Forbidden(String),
+
         #[error("Conflict: {0}")]
         Conflict(String),
+
+        #[error("Internal server error: {0}")]
+        InternalServerError(String),
 
         #[error("Scraper error: {0}")]
         Scraper(String),
@@ -45,7 +51,12 @@ pub mod error {
                 Error::NotFound(e) => ApiResponse::<()>::not_found(e.clone()),
                 Error::BadRequest(e) => ApiResponse::<()>::bad_request(e.clone()),
                 Error::Unauthorized(e) => ApiResponse::<()>::unauthorized(e.clone()),
+                Error::Forbidden(e) => ApiResponse::<()>::forbidden(e.clone()),
                 Error::Conflict(e) => ApiResponse::<()>::conflict(e.clone()),
+                Error::InternalServerError(e) => {
+                    error!("Error Response: Internal server error - {}", e);
+                    ApiResponse::<()>::internal_error(e.clone())
+                }
                 Error::Scraper(e) => {
                     error!("Error Response: Scraper error - {}", e);
                     ApiResponse::<()>::internal_error(e.clone())
@@ -59,12 +70,12 @@ pub mod error {
 
         fn status_code(&self) -> StatusCode {
             match self {
-                Error::Database(_) | Error::Api(_) | Error::Scraper(_) | Error::WebDriver(_) => {
-                    StatusCode::INTERNAL_SERVER_ERROR
-                }
+                Error::Database(_) | Error::Api(_) | Error::Scraper(_) | Error::WebDriver(_) |
+                Error::InternalServerError(_) => StatusCode::INTERNAL_SERVER_ERROR,
                 Error::NotFound(_) => StatusCode::NOT_FOUND,
                 Error::BadRequest(_) => StatusCode::BAD_REQUEST,
                 Error::Unauthorized(_) => StatusCode::UNAUTHORIZED,
+                Error::Forbidden(_) => StatusCode::FORBIDDEN,
                 Error::Conflict(_) => StatusCode::CONFLICT,
             }
         }

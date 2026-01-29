@@ -43,20 +43,26 @@ impl<'a> IndeedScraper<'a> {
         // Wait for page to load
         tokio::time::sleep(Duration::from_secs(2)).await;
 
-        // Try to dismiss cookie consent popup if present
-        self.dismiss_popups().await;
-
         // Wait a bit more for any dynamic content
         tokio::time::sleep(Duration::from_secs(1)).await;
 
         // Find all job cards
-        let job_cards = self.driver.find_all(By::Css("div.job_seen_beacon")).await?;
+        let job_cards = match self.driver.find_all(By::Css("div.job_seen_beacon")).await {
+            Ok(cards) => cards,
+            Err(e) => {
+                let html = self.get_page_html().await;
+                tracing::error!("Error finding job cards: {}\nPage HTML:\n{}", e, html);
+                return Err(Error::Scraper(format!("Error finding job cards: {}\n\nPage HTML:\n{}", e, html)));
+            }
+        };
 
         if job_cards.is_empty() {
             // Try alternative selector
-            let job_cards = self.driver.find_all(By::Css("div.jobsearch-ResultsList > div")).await?;
+            let job_cards = self.driver.find_all(By::ClassName("div.jobsearch-ResultsList > div")).await?;
             if job_cards.is_empty() {
-                return Err(Error::Scraper("No job cards found on page".into()));
+                let html = self.get_page_html().await;
+                tracing::error!("No job cards found on page: {}\nPage HTML:\n{}", url, html);
+                return Err(Error::Scraper(format!("No job cards found on page: {}\n\nPage HTML:\n{}", url, html)));
             }
         }
 
@@ -178,6 +184,14 @@ impl<'a> IndeedScraper<'a> {
     fn get_text_optional_sync(&self, _parent: &WebElement, _selector: &str) -> Option<String> {
         // This would need to be async, so we'll skip it for now
         None
+    }
+
+    /// Get the entire page HTML for debugging
+    async fn get_page_html(&self) -> String {
+        match self.driver.source().await {
+            Ok(html) => html,
+            Err(e) => format!("[Failed to get page HTML: {}]", e),
+        }
     }
 
     /// Extract the Indeed job key from the card element
